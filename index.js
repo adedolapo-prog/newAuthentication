@@ -2,10 +2,9 @@ const express = require("express")
 const app = express()
 const route = require("./routes/index")
 const connectDB = require("./connection/connectDB")
-
+const { middleware } = require("./middleware/index")
 //parsing input
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+middleware(app)
 
 //creating db connection
 connectDB(app)
