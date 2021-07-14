@@ -9,7 +9,6 @@ module.exports = class Validator {
   static async newUser(body) {
     let error = {}
 
-    console.log(body["email"])
     //check if string is empty
     if (
       validator.isEmpty(body["name"]) ||
@@ -27,16 +26,36 @@ module.exports = class Validator {
       error.msg = "input cannot be boolean"
     }
 
-    if (!validator.isAlpha(body.name)) {
-      error.msg = "input can only be alphabets"
-    }
-
     if (!validator.isEmail(body.email)) {
       error.msg = "please enter a valid email"
     }
 
     if (!validator.isStrongPassword(body.password)) {
       error.msg = "password is not strong enough"
+    }
+
+    return {
+      error,
+      isValid: Object.keys(error).length == 0,
+    }
+  }
+
+  static async validateLogin(body) {
+    let error = {}
+
+    if (!validator.isEmail(body.email)) {
+      error.msg = "please enter a valid email"
+    }
+
+    if (
+      validator.isEmpty(body["email"]) ||
+      validator.isEmpty(body["password"])
+    ) {
+      error.msg = "please fill in all missing fields"
+    }
+
+    if (validator.isBoolean(body.email) || validator.isBoolean(body.password)) {
+      error.msg = "input cannot be boolean"
     }
 
     return {

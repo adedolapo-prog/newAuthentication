@@ -11,10 +11,10 @@ module.exports = class UserService {
       throw error
     }
     try {
-      console.log("i am here nowwwww")
       const newUser = await new User(body)
       await newUser.save()
-      return newUser
+      const { name, email } = newUser
+      return { name, email }
     } catch (err) {
       if (err.errors) {
         let errArr = {}
@@ -25,7 +25,6 @@ module.exports = class UserService {
         }
         throw errArr
       } else {
-        console.log(err)
         throw "email already exists"
       }
     }
