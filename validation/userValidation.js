@@ -40,7 +40,7 @@ module.exports = class Validator {
     }
   }
 
-  static async validateLogin(body) {
+  static async login(body) {
     let error = {}
 
     if (!validator.isEmail(body.email)) {
