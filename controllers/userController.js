@@ -15,12 +15,10 @@ module.exports = class UserController {
   static async login(req, res) {
     try {
       const { name, email, token } = await UserService.loginUser(req.body)
-      res
+      return res
         .status(200)
         .header("auth-token", token)
         .json({ success: true, error: "nil", data: { name, email } })
-
-      res.end()
     } catch (err) {
       return res.status(400).json({ success: false, error: err })
     }
