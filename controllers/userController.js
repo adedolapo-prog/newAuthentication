@@ -14,11 +14,23 @@ module.exports = class UserController {
 
   static async login(req, res) {
     try {
-      const { email, password } = req.body
-      const loginUser = await UserService.loginUser({ email, password })
-      return res
+      const { name, email, token } = await UserService.loginUser(req.body)
+      res
         .status(200)
-        .json({ success: true, error: "nil", data: loginUser })
+        .header("auth-token", token)
+        .json({ success: true, error: "nil", data: { name, email } })
+
+      res.end()
+    } catch (err) {
+      return res.status(400).json({ success: false, error: err })
+    }
+  }
+
+  static async posts(req, res) {
+    try {
+      const posts = await UserService.posts()
+
+      return res.status(200).json({ success: true, error: "nil", data: posts })
     } catch (err) {
       return res.status(400).json({ success: false, error: err })
     }

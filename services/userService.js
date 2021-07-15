@@ -1,6 +1,9 @@
 const User = require("../models/userModel")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 const userValidator = require("../validation/userValidation")
+const { SECRET_KEY } = require("../configs/config.json")
+
 module.exports = class UserService {
   /**
    * @param {*} body
@@ -53,8 +56,18 @@ module.exports = class UserService {
       throw "email or password incorrect"
     }
 
+    //create and assign a token
+    const token = jwt.sign({ _id: foundUser._id }, SECRET_KEY)
+
     //only gets here if email and password checks successful then returns name and email
     const { name, email } = foundUser
-    return { name, email }
+    return { name, email, token }
+  }
+
+  static async posts() {
+    return {
+      title: "my first post",
+      description: " random data you shouldnt have access to",
+    }
   }
 }
