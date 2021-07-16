@@ -4,7 +4,7 @@ const { SECRET_KEY } = require("../configs/config.json")
 module.exports = function (req, res, next) {
   const token = req.header("auth-token")
   if (!token) {
-    res.status(400).json({ success: false, data: "access denied" })
+    res.status(401).json({ success: false, data: "access denied" })
   }
 
   try {
@@ -12,6 +12,7 @@ module.exports = function (req, res, next) {
     req.user = verified
     next()
   } catch (err) {
-    res.status(400).json({ success: false, data: "invalid token" })
+    res.status(401).json({ success: false, data: "invalid token" })
+    next()
   }
 }

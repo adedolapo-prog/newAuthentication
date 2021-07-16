@@ -9,5 +9,13 @@ middleware(app)
 //creating db connection
 connectDB(app)
 
+function errorHandler(err, req, res, next) {
+  if (err) {
+    console.log("sorry, there was an error")
+  }
+}
+
 //declaring the route
 route(app)
+
+app.use(errorHandler)
