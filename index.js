@@ -19,3 +19,7 @@ function errorHandler(err, req, res, next) {
 route(app)
 
 app.use(errorHandler)
+
+app.get('/', (req, res) => {
+  res.send('Working fine')
+})
